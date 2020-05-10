@@ -114,7 +114,7 @@ void Decrypt(unsigned short *pusPlaintextOrCiphertext, unsigned char *pucCiphert
 
 int main(int argc, char *argv[])
 {
-    if(argv[1][0] == '-' && (argv[1][1] == 'C' || argv[1][1] == 'c' || argv[1][1] == 'P' || argv[1][1] == 'p'))
+    if(argv[1][0] == '-' && (argv[1][1] == 'c' || argv[1][1] == 'p' || argv[1][1] == 'C' || argv[1][1] == 'P'))
     {
 // any password length
         unsigned long long ulPasswordLength = -1;
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
         unsigned long long ulFileSize = statFileSize.st_size;
 
 // allocate storage space
-        unsigned char *pucPlaintextOrCiphertext = (unsigned char*)malloc(ulFileSize), *pucCiphertextOrPlaintext;
+        unsigned char *pucPlaintextOrCiphertext = (unsigned char*)malloc(ulFileSize), *pucCiphertextOrPlaintext = NULL;
 
 // open the plaintext or ciphertext file
         int iPlaintextOrCiphertext = open(argv[2], O_RDONLY, S_IRUSR | S_IWUSR);
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 
         close(iPlaintextOrCiphertext);
 
-        if(argv[1][1] == 'C' || argv[1][1] == 'c')
+        if(argv[1][1] == 'c' || argv[1][1] == 'C')
         {
             ulFileSize *= 2;
 
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 
             Encrypt(pucPlaintextOrCiphertext, (unsigned short*)pucCiphertextOrPlaintext, ulFileSize / 2, (unsigned char*)argv[4], ulPasswordLength);
         }
-        else if(argv[1][1] == 'P' || argv[1][1] == 'p')
+        else if(argv[1][1] == 'p' || argv[1][1] == 'P')
         {
             ulFileSize /= 2;
 
@@ -155,6 +155,7 @@ int main(int argc, char *argv[])
 
             Decrypt((unsigned short*)pucPlaintextOrCiphertext, pucCiphertextOrPlaintext, ulFileSize, (unsigned char*)argv[4], ulPasswordLength);
         }
+
 // open the ciphertext or plaintext file
         iPlaintextOrCiphertext = open(argv[3], O_CREAT | O_WRONLY, S_IREAD | S_IWRITE);
 
