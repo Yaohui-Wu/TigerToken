@@ -8,3 +8,5 @@
 * If you break this algorithm, please let me know. Thank you very so much!
 
 * Compiled on MacOS, Linux and *BSD in X86_64 platform.
+
+* HuFu.c is a enhanced version of this demo.
